@@ -50,7 +50,3 @@ export function simplifyUserData(user_data: any): SimplifiedDuolingoAPIUser {
     
     return simplified_user;
 }
-
-function getUserStreak(userData: SimplifiedDuolingoAPIUser):number {
-    return userData["streak"]
-}
