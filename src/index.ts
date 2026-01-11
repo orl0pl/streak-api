@@ -37,6 +37,10 @@ router.get('/streak/:name', async (req)=>{
 
 })
 
+router.get('*', async (req)=>{
+	return error(404, 'Route not found')
+})
+
 export default {
 	async fetch(request, env, ctx): Promise<Response> {
 		return router.fetch(request);
