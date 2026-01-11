@@ -1,18 +1,43 @@
-/**
- * Welcome to Cloudflare Workers! This is your first worker.
- *
- * - Run `npm run dev` in your terminal to start a development server
- * - Open a browser tab at http://localhost:8787/ to see your worker in action
- * - Run `npm run deploy` to publish your worker
- *
- * Bind resources to your worker in `wrangler.jsonc`. After adding bindings, a type definition for the
- * `Env` object can be regenerated with `npm run cf-typegen`.
- *
- * Learn more at https://developers.cloudflare.com/workers/
- */
+import { error, Router } from 'itty-router';
+import { apiDocs } from './docs';
+import { fetchUserData, simplifyUserData } from './services';
+
+const router = Router();
+
+
+router.get('/', async (req) => {
+	return new Response(apiDocs);
+});
+
+router.get('/user/:name', async ({name})=>{
+	let response = await fetchUserData(name)
+	if (response.data){
+		if (response.data.users.length > 0) {
+			return JSON.stringify(simplifyUserData(response.data))
+		} else {
+			return error(404, JSON.stringify({error: "User with username '" + name + "' not found"}))
+		}
+	} else {
+		return error(500, JSON.stringify({error: response.error}))
+	}
+})
+
+router.get('/streak/:name', async ({name})=>{
+	let response = await fetchUserData(name)
+	if (response.data){
+		if (response.data.users.length > 0) {
+			return JSON.stringify(simplifyUserData(response.data).streak)
+		} else {
+			return error(404, JSON.stringify({error: "User with username '" + name + "' not found"}))
+		}
+	} else {
+		return error(500, JSON.stringify({error: response.error}))
+	}
+})
+
 
 export default {
 	async fetch(request, env, ctx): Promise<Response> {
-		return new Response('Hello World!');
+		return router.fetch(request);
 	},
 } satisfies ExportedHandler<Env>;

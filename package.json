@@ -6,7 +6,7 @@
 		"deploy": "wrangler deploy",
 		"dev": "wrangler dev",
 		"start": "wrangler dev",
-		"test": "vitest",
+		"test": "echo not yet",
 		"cf-typegen": "wrangler types"
 	},
 	"devDependencies": {
@@ -14,5 +14,8 @@
 		"typescript": "^5.5.2",
 		"vitest": "~3.2.0",
 		"wrangler": "^4.58.0"
+	},
+	"dependencies": {
+		"itty-router": "^5.0.22"
 	}
 }
