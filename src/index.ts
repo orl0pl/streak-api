@@ -10,7 +10,7 @@ import { DurableObject } from "cloudflare:workers";
 
 // Durable Object
 export class RateLimiter extends DurableObject {
-	static milliseconds_per_request = 4000;
+	static milliseconds_per_request = 100;
 	static milliseconds_for_grace_period = 5000;
 
 	nextAllowedTime: number;
